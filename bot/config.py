@@ -22,10 +22,13 @@ class Config(object):
     OWNER_ID = int(os.environ.get("OWNER_ID"))
     LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "0"))
     WEB_SERVER = is_enabled(os.environ.get("WEB_SERVER", "False"), False)
+    URL = os.environ.get("URL", "https://t.me/kevinnadar22")
 
 
 class Script(object):
-    START_MESSAGE = os.environ.get("START_MESSAGE", "Start message")
+    START_MESSAGE = """Hey, How are you? 
+
+Send Command - /brazzers , and Watch Full Video With HD Quality Online."""
     DEV_MESSAGE = """👋 Hey there, I'm Kevin Nadar – your go-to Telegram bot developer!
 
 🤖 Love having bots that do the heavy lifting for you? That's my jam! I'm all about crafting super cool and custom Telegram bots that make your life a breeze.

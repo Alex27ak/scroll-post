@@ -1,8 +1,9 @@
 import logging
 from pyrogram import Client, types
-from bot.config import Config
 from database import db
 from aiohttp import web
+import functools
+
 
 async def set_commands(app: Client):
     commands = [
@@ -12,7 +13,7 @@ async def set_commands(app: Client):
     await app.set_bot_commands(commands)
 
 
-async def get_admins():
+async def get_admins() -> list:
     config = await db.config.get_config("ADMINS")
     return config["value"]
 
@@ -79,3 +80,42 @@ async def add_user(user_id):
         return
     await db.users.create_user(user_id)
     return True
+
+
+def is_admin(func):
+    @functools.wraps(func)
+    async def wrapper(client, message):
+        chat_id = getattr(message.from_user, "id", None)
+        admins = await get_admins()
+        if chat_id not in admins:
+            return
+        return await func(client, message)
+
+    return wrapper
+
+
+def get_media_from_message(message):
+    media_types = (
+        "audio",
+        "document",
+        "photo",
+        "sticker",
+        "animation",
+        "video",
+        "voice",
+        "video_note",
+    )
+    for attr in media_types:
+        media = getattr(message, attr, None)
+        if media:
+            return media
+
+
+def get_hash(media_msg) -> str:
+    media = get_media_from_message(media_msg)
+    return getattr(media, "file_unique_id", "")[:6]
+
+
+def get_name(media_msg) -> str:
+    media = get_media_from_message(media_msg)
+    return getattr(media, "file_name", "")
