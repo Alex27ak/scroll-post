@@ -20,9 +20,9 @@ class Config(object):
     DATABASE_NAME = os.environ.get("DATABASE_NAME", "tg_bot")
     DATABASE_URL = os.environ.get("DATABASE_URL", "mongodb+srv://Alex1206:Alex1206@cluster0.6xgmrjh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
     OWNER_ID = int(os.environ.get("OWNER_ID","1254785184"))
-    LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "0"))
+    LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "-1002025354142"))
     WEB_SERVER = is_enabled(os.environ.get("WEB_SERVER", "False"), False)
-    URL = os.environ.get("URL", "https://t.me/kevinnadar22")
+    URL = os.environ.get("URL", "https://aklinksz.online")
 
 
 class Script(object):
