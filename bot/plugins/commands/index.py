@@ -55,7 +55,7 @@ async def index_command(c: Client, m: Message):
                 file = post.video or post.document
                 thumbnail = None
 
-                if len(file.thumbs) > 0:
+                if file.thumbs and len(file.thumbs) > 0:
                     thumbnail = file.thumbs[0].file_id
 
                 name = file.file_name
