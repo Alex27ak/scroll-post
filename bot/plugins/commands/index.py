@@ -1,7 +1,13 @@
 from contextlib import suppress
 from urllib.parse import quote_plus
 from pyrogram import Client, filters
-from pyrogram.types import Message, Video, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import (
+    Message,
+    Video,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    Document,
+)
 from bot.config import Config
 from bot.utils.helpers import get_hash, get_name, is_admin
 from database import db
@@ -57,6 +63,12 @@ async def index_command(c: Client, m: Message):
 
                 if file.thumbs and len(file.thumbs) > 0:
                     thumbnail = file.thumbs[0].file_id
+
+                if (
+                    isinstance(file, Document)
+                    and file.mime_type.split("/")[0] != "video"
+                ):
+                    continue
 
                 name = file.file_name
                 caption = post.caption.html if post.caption else ""
