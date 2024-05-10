@@ -74,6 +74,10 @@ async def index_command(c: Client, m: Message):
                 caption = post.caption.html if post.caption else ""
                 duration = file.duration if isinstance(file, Video) else 0.00
                 file_id = file.file_id
+
+                if await db.files.exists(file_id):
+                    continue
+                
                 log_msg = await floodwait_handler(
                     post.copy,
                     chat_id=Config.LOG_CHANNEL,

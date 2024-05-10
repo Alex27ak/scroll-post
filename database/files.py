@@ -7,8 +7,20 @@ class FilesDatabase:
         self.db = self._client[database_name]
         self.col = self.db["files"]
 
-    async def create_file(self, file_id, file_name, duration, caption, stream_link, message_id, chat_id, thumbnail=None):
-        default_thumbnail = "https://i.pinimg.com/736x/0c/32/97/0c3297f3516a415219c7e89e16a4a3d2.jpg"
+    async def create_file(
+        self,
+        file_id,
+        file_name,
+        duration,
+        caption,
+        stream_link,
+        message_id,
+        chat_id,
+        thumbnail=None,
+    ):
+        default_thumbnail = (
+            "https://i.pinimg.com/736x/0c/32/97/0c3297f3516a415219c7e89e16a4a3d2.jpg"
+        )
         return await self.col.insert_one(
             {
                 "file_id": file_id,
@@ -32,7 +44,10 @@ class FilesDatabase:
         await self.col.update_one({"_id": file_id}, {f"${tag}": data})
 
     async def delete_file(self, file_id):
-        await self.col.delete_one({"_id": file_id}) 
+        await self.col.delete_one({"_id": file_id})
 
     async def delete_file_by_message_id(self, message_id, chat_id):
         await self.col.delete_one({"message_id": message_id, "chat_id": chat_id})
+
+    async def exists(self, file_id):
+        return bool(await self.col.count_documents({"file_id": file_id}))
