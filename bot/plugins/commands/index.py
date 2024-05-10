@@ -82,7 +82,7 @@ async def index_command(c: Client, m: Message):
                         [[InlineKeyboardButton("Delete", "delete")]]
                     ),
                 )
-                stream_link = f"{Config.URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
+                stream_link = f"watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
                 await db.files.create_file(
                     file_id,
                     name,
