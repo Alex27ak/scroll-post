@@ -39,7 +39,7 @@ async def files(bot: Client, message: Message | CallbackQuery):
         text += f"Duration : {file_info['duration']}\n"
         text = f"**{text}**"
         # Assuming stream_link is the URL for online play
-        stream_link = f"{Config.URL}{file_info['stream_link']}"
+        stream_link = f"{Config.URL}{file_info['stream_link'].replace(Config.URL, '')}"
         buttons = []
         buttons.append([InlineKeyboardButton("Online Play", url=stream_link)])
 
