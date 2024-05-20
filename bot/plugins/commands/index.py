@@ -76,6 +76,7 @@ async def index_command(c: Client, m: Message):
                 file_id = file.file_id
 
                 if await db.files.exists(file_id):
+                    counter -= 1
                     continue
                 
                 log_msg = await floodwait_handler(
@@ -100,7 +101,7 @@ async def index_command(c: Client, m: Message):
                 with suppress(Exception):
                     await out.edit(f"Indexed {counter} messages")
 
-    await out.edit_text(f"Indexing completed for {channel.title}")
+    await out.edit_text(f"Indexing completed for {channel.title} with {counter} messages")
     return
 
 

@@ -51,3 +51,6 @@ class FilesDatabase:
 
     async def exists(self, file_id):
         return bool(await self.col.count_documents({"file_id": file_id}))
+
+    async def get_total_files(self):
+        return await self.col.count_documents({})
