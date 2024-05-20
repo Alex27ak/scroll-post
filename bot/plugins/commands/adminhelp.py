@@ -10,6 +10,7 @@ async def admin(client: Client, message: Message):
     text = """
 **Admin Commands**
 
+/remove_all - Remove all files
 /addadmin - Add an admin
 /admins - Get all admins
 /removeadmin - Remove an admin

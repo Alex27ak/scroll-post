@@ -10,6 +10,7 @@ class FilesDatabase:
     async def create_file(
         self,
         file_id,
+        file_unique_id,
         file_name,
         duration,
         caption,
@@ -24,6 +25,7 @@ class FilesDatabase:
         return await self.col.insert_one(
             {
                 "file_id": file_id,
+                "file_unique_id": file_unique_id,
                 "file_name": file_name,
                 "duration": duration,
                 "caption": caption,
@@ -50,7 +52,7 @@ class FilesDatabase:
         await self.col.delete_one({"message_id": message_id, "chat_id": chat_id})
 
     async def exists(self, file_id):
-        return bool(await self.col.count_documents({"file_id": file_id}))
+        return bool(await self.col.count_documents({"file_unique_id": file_id}))
 
     async def get_total_files(self):
         return await self.col.count_documents({})

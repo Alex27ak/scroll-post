@@ -55,7 +55,6 @@ async def index_command(c: Client, m: Message):
             c.get_messages, channel_id, total_messages[i : i + 200]
         )
         for post in channel_posts:
-            counter += 1
             post: Message
             if post.video or post.document:
                 file = post.video or post.document
@@ -74,9 +73,9 @@ async def index_command(c: Client, m: Message):
                 caption = post.caption.html if post.caption else ""
                 duration = file.duration if isinstance(file, Video) else 0.00
                 file_id = file.file_id
+                file_unique_id = file.file_unique_id
 
-                if await db.files.exists(file_id):
-                    counter -= 1
+                if await db.files.exists(file_unique_id):
                     continue
                 
                 log_msg = await floodwait_handler(
@@ -90,6 +89,7 @@ async def index_command(c: Client, m: Message):
                 stream_link = f"watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
                 await db.files.create_file(
                     file_id,
+                    file_unique_id,
                     name,
                     duration,
                     caption,
@@ -98,6 +98,7 @@ async def index_command(c: Client, m: Message):
                     log_msg.chat.id,
                     thumbnail,
                 )
+                counter += 1
                 with suppress(Exception):
                     await out.edit(f"Indexed {counter} messages")
 
